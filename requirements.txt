@@ -1,0 +1,5 @@
+google-adk
+litellm
+pytest
+pytest-asyncio
+python-dotenv

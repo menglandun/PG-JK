@@ -1,0 +1,64 @@
+{
+  "eval_set_id": "device_agent_eval",
+  "name": "设备控制智能体单元测试集",
+  "description": "单轮会话，校验工具调用轨迹与最终答复（书中“关闭卧室设备2”示例）。",
+  "eval_cases": [
+    {
+      "eval_id": "turn_off_bedroom_device2",
+      "session_input": {
+        "app_name": "device_agent",
+        "user_id": "eval_user_1",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1",
+          "user_content": {
+            "role": "user",
+            "parts": [{ "text": "关闭卧室中的设备2" }]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [{ "text": "我已将设备2的状态设置为关闭。" }]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "set_device_info",
+                "args": { "location": "Bedroom", "device_id": "device_2", "status": "OFF" }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "query_living_temperature",
+      "session_input": {
+        "app_name": "device_agent",
+        "user_id": "eval_user_2",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1",
+          "user_content": {
+            "role": "user",
+            "parts": [{ "text": "客厅现在多少度？" }]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [{ "text": "客厅当前温度约24.5摄氏度。" }]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              { "name": "get_temperature", "args": { "location": "Living" } }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ]
+    }
+  ]
+}
