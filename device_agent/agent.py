@@ -9,7 +9,7 @@ Google ADK + DeepSeek 设备控制智能体（最小可运行示例）
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # 从同项目根目录 .env 读取 DEEPSEEK_API_KEY 等环境变量
+load_dotenv(override=True)  # 强制用 .env 覆盖 shell 里可能残留的旧 key
 
 from google.adk.agents import LlmAgent
 from google.adk.models.lite_llm import LiteLlm
@@ -63,9 +63,14 @@ root_agent = LlmAgent(
     model=_model,
     name="device_agent",
     instruction=(
-        "你是智能家居客服助手。流程：先判断用户意图，"
-        "需要操作设备时再调用工具，参数必须从用户原话中提取并归一化"
-        "（房间转英文 Bedroom/Living，状态转 ON/OFF）；"
+        "你是智能家居客服助手，只管理卧室(Bedroom)和客厅(Living)的设备。"
+        "流程：先判断用户意图。\n"
+        "1. 只有明确给出房间、设备、开关状态时才调用工具，"
+        "参数从用户原话提取并归一化（房间转 Bedroom/Living，状态转 ON/OFF）；\n"
+        "2. 房间、设备或状态缺失、指代不清时，先反问用户澄清，"
+        "不要编造参数、不要强行调用工具；\n"
+        "3. 与设备控制/温度查询无关的请求（订餐、天气、闲聊等），"
+        "礼貌说明你只能管理这两间房的设备，不要调用任何工具；\n"
         "回答简洁，按工具返回结果复述操作结果，不要编造设备或温度。"
     ),
     tools=[set_device_info, get_temperature],

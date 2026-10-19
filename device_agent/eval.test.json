@@ -59,6 +59,56 @@
           }
         }
       ]
+    },
+    {
+      "eval_id": "ambiguous_turn_on_all",
+      "session_input": {
+        "app_name": "device_agent",
+        "user_id": "eval_user_3",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1",
+          "user_content": {
+            "role": "user",
+            "parts": [{ "text": "把家里的灯都打开" }]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [{ "text": "请问您要打开哪个房间的哪台设备？我只能控制卧室和客厅的设备。" }]
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "ask_unrelated_coffee",
+      "session_input": {
+        "app_name": "device_agent",
+        "user_id": "eval_user_4",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1",
+          "user_content": {
+            "role": "user",
+            "parts": [{ "text": "帮我订一杯咖啡送到家" }]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [{ "text": "抱歉，我只能管理卧室和客厅的设备，无法帮您订餐。" }]
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ]
     }
   ]
 }
