@@ -1,0 +1,21 @@
+name: agent-eval
+on:
+  push: { branches: [main, master] }
+  pull_request: { branches: [main, master] }
+  workflow_dispatch: {}
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      DEEPSEEK_MODEL: deepseek/deepseek-chat
+      DEEPSEEK_BASE_URL: https://api.deepseek.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - run: pytest device_agent/test_agent_eval.py -v
